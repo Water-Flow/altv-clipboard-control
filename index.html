@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Altv-Clipboard-Control</title>
+</head>
+<body>
+    <script>
+        if ('alt' in window) {
+            alt.on('Copy', copy);
+        }
+        function copy(text) {
+            var node = document.createElement('textarea');
+            var selection = document.getSelection();
+            node.textContent = text;
+            document.body.appendChild(node);
+            node.select();
+            document.execCommand('copy');
+            selection.removeAllRanges();
+            document.body.removeChild(node);
+        }
+    </script>
+</body>
+</html>
