@@ -11,7 +11,7 @@ const menu = new NativeUI.Menu('AltV-Clipboard', '', new NativeUI.Point(50, 50))
 menu.GetTitle().Scale = 0.8;
 menu.GetTitle().DropShadow = true;
 menu.GetTitle().Font = NativeUI.Font.ChaletLondon;
-let items = ['X', 'Y', 'Z', 'Yaw', 'Pitch', 'Roll'];
+let items = ['X', 'Y', 'Z', 'RX', 'RY', 'RZ', 'Position C#', 'Rotation C#'];
 for (var i=0; i<items.length; i++) { menu.AddItem(new NativeUI.UIMenuItem(items[i])); }
 
 alt.onServer('Clipboard:ToggleMenu', () => toggleMenu());
@@ -34,6 +34,7 @@ menu.ItemSelect.on((item, selectedItemIndex) => {
 	if (!(item instanceof NativeUI.UIMenuItem)) return;
 	
     var pos = alt.Player.local.pos;
+    var rot = alt.Player.local.rot;
     webView.focus();
     switch (item.Text) {
         case 'X':
@@ -44,6 +45,21 @@ menu.ItemSelect.on((item, selectedItemIndex) => {
             break;
         case 'Z':
             webView.emit('Copy', pos.z.toString());
+            break;
+        case 'RX':
+            webView.emit('Copy', rot.x.toString());
+            break;
+        case 'RY':
+            webView.emit('Copy', rot.z.toString());
+            break;
+        case 'RZ':
+            webView.emit('Copy', rot.z.toString());
+            break;
+        case 'Position C#':
+            webView.emit('Copy', `new Position(${pos.x.toString()}F, ${pos.y.toString()}F, ${pos.z.toString()}F)`);
+            break;
+        case 'Position C#':
+            webView.emit('Copy', `new Rotation(${rot.x.toString()}F, ${rot.y.toString()}F, ${rot.z.toString()}F)`);
             break;
     }
 });
